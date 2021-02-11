@@ -1,0 +1,110 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">YOU ARE HERE</li>
+  <li class="active breadcrumb-item">Settings</li>
+</ol>
+<div class="page-top-line">
+  <h1 class="page-title"><span class="fw-semi-bold">Manage access</span></h1>
+</div>
+
+  <widget
+    [title]="'List of Collaborators '"
+    [close]="true"
+    [customHeader]="true"
+    [fetchingData]="isReceiving"
+  >
+    <ngx-datatable
+      [loadingIndicator]="isReceiving"
+      class="table table-striped table-hover"
+      [sorts]="[{prop: 'createdAt', dir: 'desc'}]"
+      [rows]="collaborators"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10">
+      <ngx-datatable-column name="email">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="typeClient">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Created">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.createdAt | AgePipe}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="action">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="btn-toolbar">
+            <div *ngIf="row.canDelete">
+              <button [disabled]="isDeleting && idsToDelete.indexOf(row.id) > -1"
+                      [popover]="deletePopover"
+                      [popoverContext]="row"
+                      #pop="bs-popover"
+                      placement="bottom"
+                      class="btn btn-xs btn-danger"
+              >
+                <loader *ngIf="isDeleting &&  idsToDelete.indexOf(row.id) > -1; else deleteIcon" [size]="14"></loader>
+                <ng-template #deleteIcon>
+                  <span class="d-none d-md-inline-block">Delete</span>
+                  <span class="d-md-none"><i class='la la-remove'></i></span>
+                </ng-template>
+              </button>
+              <ng-template #deletePopover let-id="id">
+                <div class="popover-title popover-header">
+                  <div class="px-5">Are you sure?</div>
+                </div>
+                <div class="popover-product-body d-flex justify-content-center">
+                  <div class="btn-toolbar">
+                    <button class="btn btn-xs btn-success" (click)="deleteCollaborators(row.id);pop.hide()">
+                      Yes
+                    </button>
+                    <button class="btn btn-xs btn-danger" (click)="pop.hide()">
+                      No
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="row.canChangePassword">
+              <button [disabled]="isDeleting && idsToDelete.indexOf(row.id) > -1"
+                      [popover]="deletePopover"
+                      [popoverContext]="row"
+                      #pop="bs-popover"
+                      placement="bottom"
+                      class="btn btn-xs btn-default"
+              >
+                <loader *ngIf="isDeleting &&  idsToDelete.indexOf(row.id) > -1; else deleteIcon" [size]="14"></loader>
+                <ng-template #deleteIcon>
+                  <span class="d-none d-md-inline-block">Change password</span>
+                  <span class="d-md-none"><i class='la la-edit'></i></span>
+                </ng-template>
+              </button>
+              <ng-template #deletePopover let-id="id">
+                <div class="popover-title popover-header">
+                  <div class="px-5">Are you sure?</div>
+                </div>
+                <div class="popover-product-body d-flex justify-content-center">
+                  <div class="btn-toolbar">
+                    <button class="btn btn-xs btn-success" (click)="deleteCollaborators(row.id);pop.hide()">
+                      Yes
+                    </button>
+                    <button class="btn btn-xs btn-danger" (click)="pop.hide()">
+                      No
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </widget>
+
+
+

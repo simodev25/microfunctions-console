@@ -1,0 +1,56 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">YOU ARE HERE</li>
+  <li class="breadcrumb-item active">Create a new Namespace</li>
+</ol>
+<h1 class="page-title"><span class="fw-semi-bold">Namespace</span></h1>
+<div class="row">
+  <div class="col-lg-6">
+    <section class="widget" widget>
+      <header>
+        <div class="widget-controls">
+          <a tooltip="Docs" href="https://microfunctions.io/docs" class="collapsed"  target="_blank"><i class="fa fa-graduation-cap"></i></a>
+          <a  data-widgster="close" (click)="goBack()"><i class="la la-remove" ></i></a>
+        </div>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal" role="form">
+          <alert type="danger alert-sm" *ngIf="errorMessage">
+            {{errorMessage}}
+          </alert>
+          <fieldset>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Name of namespace</label>
+              <div class="col-md-7 ">
+                <input type="text" id="normal-field" class="form-control" [(ngModel)]="namespace" name="namespace" required="true"
+                placeholder="namespace">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="host-field" class="col-md-4  col-form-label text-md-right">host of namespace</label>
+              <div class="col-md-7 ">
+                <input type="text" id="host-field" class="form-control" [(ngModel)]="host" name="host" required="true"
+                       placeholder="microfunctions.io">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Clusters</label>
+              <div class="col-md-7 ">
+                <select2 id="clusters-select"
+                         (valueChanged)="clustersChanged($event)" [width]="250"
+                         [data]="clusters" [options]="select2Options" ></select2>
+              </div>
+            </div>
+
+          </fieldset>
+          <div class="form-actions">
+            <div class="text-center">
+              <button class="btn btn-primary" type="submit" (click)="createNamespaceRequest()"> <loader *ngIf="isUpdating || isReceiving; else saveBtn"></loader>
+                <ng-template #saveBtn>Create</ng-template></button>
+              <button class="btn btn-inverse ml-xs" type="button"  (click)="goBack()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

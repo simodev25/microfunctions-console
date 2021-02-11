@@ -1,0 +1,82 @@
+<div class="js-sidebar-content">
+  <header class="logo">
+    <a href="index.html"><strong>Micro<i class="fa fa-flash"></i></strong>Function</a>
+  </header>
+    <div class="sidebar-status d-md-none dropdown" dropdown [autoClose]="false"
+       (isOpenChange)="toggleSidebarOverflow($event)"
+       placement="bottom left">
+
+       </div>
+  <!-- main notification links are placed inside of .sidebar-nav -->
+  <ul class="sidebar-nav">
+    <li routerLinkActive="active">
+      <a class="collapsed" data-target="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
+        <span class="icon">
+          <i class="fi flaticon-home"></i>
+        </span>
+        Dashboard
+        <i class="toggle fa fa-angle-down"></i>
+      </a>
+      <ul id="sidebar-dashboard" class="collapse">
+        is coming
+      </ul>
+    </li>
+    <li routerLinkActive="active" class="active" tooltip="Creating a new namespace.">
+      <a [routerLink]=" ['namespace'] " class="collapsed">
+     <span class="icon">
+       <i class="fa fa-flash"></i>
+     </span>
+        Namespaces
+      </a>
+    </li>
+    <li routerLinkActive="active"  tooltip="cluster">
+      <a [routerLink]=" ['cluster'] " class="collapsed">
+     <span class="icon">
+       <i class="fa fa-cubes"></i>
+     </span>
+        Cluster
+      </a>
+    </li>
+<!--    <li routerLinkActive="active"  tooltip="@microfunctions/cli">
+      <a [routerLink]=" ['cli'] " class="collapsed">
+     <span class="icon">
+       <i class="fa fa-terminal"></i>
+     </span>
+        Cli
+      </a>
+    </li>-->
+    <li routerLinkActive="active">
+      <a class="collapsed" data-target="#sidebar-ecommerce" data-toggle="collapse" data-parent="#sidebar">
+        <span class="icon">
+          <i class="fi flaticon-settings-6"></i>
+        </span>
+        Settings
+        <i class="toggle fi flaticon-settings-6"></i>
+      </a>
+      <ul id="sidebar-ecommerce" class="collapse">
+        <li routerLinkActive="active">
+          <a [routerLink]=" ['settings/access'] ">Manage access
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li  tooltip="Docs">
+      <a href="https://microfunctions.io/docs" class="collapsed"  target="_blank">
+     <span class="icon">
+       <i class="fa fa-graduation-cap"></i>
+     </span>
+        Docs
+      </a>
+    </li>
+    <li  tooltip="New issue.">
+      <a href="https://github.com/microfunctionsio/microfunctions-helm/issues" class="collapsed"  target="_blank">
+     <span class="icon">
+       <i class="fa fa-info"></i>
+     </span>
+        Issues
+      </a>
+    </li>
+  </ul>
+
+
+</div>

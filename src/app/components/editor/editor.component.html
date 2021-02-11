@@ -1,0 +1,8 @@
+<ngx-monaco-editor #editor class="monaco-editor"
+                   data-automation-id="variable-value"
+                   (keyup)="onChange()"
+                   [options]="editorOptions"
+                   [(ngModel)]="value"
+                   (onInit)="onInit($event)"
+               >
+</ngx-monaco-editor>

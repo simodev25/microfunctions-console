@@ -1,0 +1,35 @@
+<loader *ngIf="!isReceiving; else metricsbloc" [size]="40"></loader>
+<ng-template #metricsbloc>
+<section class="widget widget-sm">
+  <div class="widget-body">
+    <div class="clearfix fs-mini">
+      <span class="pull-right m-0 fw-semi-bold">CPU</span>
+      <span class="fw-semi-bold"> {{cpuUsage}} / {{cpuLimits}}</span>
+    </div>
+    <div class="bg-gray-lighter progress progress-xs">
+      <progressbar  class="progress-sm mb-sm " [type]="getProgressbarTye(networkProgressbar)" [value]="cpuUsageProgressbar"></progressbar>
+    </div>
+    <div class="clearfix fs-mini mt">
+      <span class="pull-right m-0 fw-semi-bold">Mem</span>
+      <span class="fw-semi-bold">{{memoryUsage}} / {{memoryRequests}}</span>
+    </div>
+    <div class="bg-gray-lighter progress progress-xs">
+      <progressbar  class="progress-sm mb-sm " [type]="getProgressbarTye(memoryProgressbar)" [value]="memoryProgressbar"></progressbar>
+    </div>
+    <div class="clearfix fs-mini mt">
+      <span class="pull-right m-0 fw-semi-bold">Network</span>
+      <span class="fw-semi-bold">{{networkReceive}} <i class="fa fa-caret-down"></i> &nbsp; {{networkTransit}} <i class="fa fa-caret-up"></i></span>
+    </div>
+    <div class="bg-gray-lighter progress progress-xs">
+      <progressbar  class="progress-sm mb-sm " [type]="getProgressbarTye(networkProgressbar)" [value]="networkProgressbar"></progressbar>
+    </div>
+    <div class="clearfix fs-mini mt">
+      <span class="pull-right m-0 fw-semi-bold">Filesystem</span>
+      <span class="fw-semi-bold">{{fsUsage}} <i class="fa fa-caret-up"></i> &nbsp; </span>
+    </div>
+    <div class="bg-gray-lighter progress progress-xs">
+      <progressbar  class="progress-sm mb-sm " [type]="getProgressbarTye(fsUsageProgressbar)" [value]="fsUsageProgressbar"></progressbar>
+    </div>
+  </div>
+</section>
+</ng-template>

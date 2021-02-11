@@ -1,0 +1,32 @@
+# This file is a template, and might need editing before it works on your project.
+stages:
+  - auto_increment
+  - build
+micro-function-front:
+  # Official docker image.
+
+  image: docker:latest
+  stage: build
+  variables:
+    CONTAINER_IMAGE: simo25docker/micro-function-front:${MAJOR}.${MINOR}.${HOTFIX}
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u  "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
+  script:
+    - echo "The current version is set to ${CONTAINER_IMAGE}."
+    - docker build --pull -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+  only:
+    - master
+
+auto_increment:
+  stage: auto_increment
+  image: docker:latest
+  only:
+    - master
+  before_script:
+    - apk add --update curl jq
+  script:
+    - "chmod +x versioning/auto_increment"
+    - "./versioning/auto_increment versioning/VERSION_FILE ${CI_PROJECT_URL} ${API_ACCESS_TOKEN} ${CI_PROJECT_ID}"

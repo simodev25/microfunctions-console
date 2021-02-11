@@ -1,0 +1,105 @@
+<span class="fi flaticon-controls-9 btn btn-xs btn-primary" tooltip="Cluster Status" (click)="openModal(template)">
+               </span>
+
+<ng-template #template>
+  <div class="modal-header">
+    <div>
+      <div [ngSwitch]="status?.status">
+          <span *ngSwitchCase="'Installing'" class="circle bg-body-light  mr-xs" placement="right"
+                [tooltip]="(status?.status)">
+             <loader [size]="25"></loader>
+          </span>
+        <span *ngSwitchCase="'Uninstalling'" class="circle bg-body-light  mr-xs" placement="right"
+              [tooltip]="(status?.status)">
+             <loader [size]="25"></loader>
+          </span>
+        <span *ngSwitchCase="'Installed'" class="circle bg-success  mr-xs" placement="right"
+              [tooltip]="(status?.status)"></span>
+        <span *ngSwitchCase="'Uninstall'" class="circle bg-info  mr-xs" placement="right"
+              [tooltip]="(status?.status)"></span>
+        <span *ngSwitchCase="'Added'" class="circle bg-info  mr-xs" placement="right" [tooltip]="(status?.status)"></span>
+        <span *ngSwitchCase="'Error'" class="circle bg-danger  mr-xs" placement="right"
+              [tooltip]="(status?.status)"></span>
+      </div>
+      {{status?.message}}
+    </div>
+    <button type="button" class="close pull-right" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <section class="widget">
+      <div class="widget-body">
+        <widget
+          [fetchingData]="isReceiving"
+        >
+
+          <ngx-datatable
+            class="table table-striped table-hover"
+            [sorts]="[{prop: 'updatedAt', dir: 'desc'}]"
+            [rows]="statusHists"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="10">
+            <ngx-datatable-column name="updatedAt" [width]="20">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.updatedAt | AgePipe}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="step" [width]="20">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="STATUS" [width]="20">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div [ngSwitch]="row.status">
+                    <span *ngSwitchCase="'Installing' || 'Checking'" class="circle bg-body-light  mr-xs"
+                          placement="right" [tooltip]="(row.status)">
+                     <loader [size]="25"></loader>
+                  </span>
+                  <span *ngSwitchCase="'Checking'" class="circle bg-body-light  mr-xs" placement="right"
+                        [tooltip]="(row.status)">
+                     <loader [size]="25"></loader>
+                   </span>
+                  <span *ngSwitchCase="'Removing'" class="circle bg-body-light  mr-xs" placement="right"
+                        [tooltip]="(row.status)">
+                     <loader [size]="25"></loader>
+                   </span>
+                  <span *ngSwitchCase="'Creating'" class="circle bg-body-light  mr-xs" placement="right"
+                        [tooltip]="(row.status)">
+                     <loader [size]="25"></loader>
+                   </span>
+                  <span *ngSwitchCase="'Installed'" class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Checked' " class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Uninstall'" class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Removed'" class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Created'" class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Added'" class="circle bg-success  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                  <span *ngSwitchCase="'Error'" class="circle bg-danger  mr-xs" placement="right"
+                        [tooltip]="(row.status)"></span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="message">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </widget>
+      </div>
+    </section>
+  </div>
+
+
+</ng-template>

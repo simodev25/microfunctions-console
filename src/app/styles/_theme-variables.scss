@@ -1,0 +1,45 @@
+app-root {
+  .sing-dashboard,
+  .dashboard-light {
+    --logo-color:#fff;
+    --body-bg:#f9fbfd;
+    --light-color:#f6f6e9;
+    --sidebar-bg-color:#002b49;
+    --sidebar-color:#c2c2c2;
+    --sidebar-action-bg:#042338;
+    --sidebar-item-active:var(--light-color);
+    --sidebar-badge-bg:#005792;--sidebar-nav-title-color:var(--light-color);
+    --widget-shadow-color:75,102,171;
+    --navbar-bg:#fff;
+    --navbar-shadow:0 15px 20px -20px rgba(var(--widget-shadow-color),0.1),0 0 15px rgba(var(--widget-shadow-color),0.06);
+    --sidebar-progress-bg-color:var(--sidebar-action-bg);
+    --sidebar-icon-active:var(--sidebar-bg-color);
+    --sidebar-item-hover-bg-color:var(--sidebar-action-bg);
+    --widget-shadow:4px 4px 30px rgba(var(--widget-shadow-color),0.2);
+
+}
+
+  .dashboard-dark {
+    --logo-color: white;
+
+    --sidebar-bg-color: #313947;
+    --sidebar-color: #a6b2c1;
+    --sidebar-action-bg: #2e3542;
+
+    --sidebar-panel-bg-color: #2e3542;
+    --sidebar-nav-title-color: #dedede;
+
+    --widget-shadow-color: 115, 162, 208;
+
+    --navbar-bg: #fff;
+    --navbar-shadow: 0 15px 20px -20px rgba(var(--widget-shadow-color), 0.1), 0 0 15px rgba(var(--widget-shadow-color), 0.06);
+  }
+
+  // dependable variables
+  .sing-dashboard {
+    --chat-sidebar-bg-color: var(--sidebar-bg-color);
+    --sidebar-progress-bg-color: var(--sidebar-action-bg);
+    --sidebar-item-hover-bg-color: var(--sidebar-action-bg);
+    --widget-shadow: 0 23px 20px -20px rgba(var(--widget-shadow-color), 0.1), 0 0 15px rgba(var(--widget-shadow-color), 0.06);
+  }
+}

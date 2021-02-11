@@ -1,0 +1,355 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">YOU ARE HERE</li>
+  <li class="breadcrumb-item">{{namespace}}</li>
+  <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+<div class="row">
+  <div class="col-lg-6">
+    <section class="widget" widget>
+      <header>
+        <div class="widget-controls">
+          <a tooltip="Docs" href="https://microfunctions.io/docs" class="collapsed" target="_blank"><i
+            class="fa fa-graduation-cap"></i></a>
+          <a data-widgster="close" (click)="goBack()">
+            <i class="la la-remove"></i>
+          </a>
+        </div>
+      </header>
+      <div class="widget-body">
+        <loader *ngIf="isReceiving; else form" [size]="40"></loader>
+        <ng-template #form>
+          <form class="form-horizontal" role="form" [formGroup]="functionForm" (ngSubmit)="submitFunction()">
+            <fieldset>
+              <div class="form-group row">
+                <label for="normal-field" class="col-md-4  col-form-label text-md-right">Name</label>
+                <div class="col-md-7 ">
+                  <input type="text" id="normal-field" class="form-control" placeholder="function-1"
+                         formControlName="name"
+                         [ngClass]="{ 'is-invalid': functionForm.controls.name.errors }">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="normal-field" class="col-md-4  col-form-label text-md-right">Allocated Memory/Cpu</label>
+                <div class="col-md-7 form-check abc-checkbox abc-checkbox-primary">
+                  <input class="form-check-input "
+                         formControlName="allocated" id="allocated"
+                         type="checkbox" checked (ngModelChange)="onAllocatedChangeDisabled()">
+                  <label class="form-check-label" for="allocated">
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <label for="slider-memory" class="col-md-4 col-form-label text-md-right">
+                  Memory allocated
+                </label>
+                <div class="col-md-7 custom-slider slider-danger mb-sm">
+                  <ng5-slider id="slider-memory" formControlName="memory"
+                              [options]="memoryOptions"></ng5-slider>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="slider-Cpu" class="col-md-4 col-form-label text-md-right">
+                  Cpu allocated
+                </label>
+                <div class="col-md-7 custom-slider slider-danger mb-sm">
+                  <ng5-slider id="slider-cpu" formControlName="cpu"
+                              [options]="cpuOptions"></ng5-slider>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="runtime-select" class="col-md-4 col-form-label text-md-right">
+                  Runtime
+                </label>
+                <div class="col-md-7 ">
+                  <select2 id="runtime-select" [value]="functionForm.controls.runtime.value" href="#index"
+                           (valueChanged)="runtimeChanged($event)"
+                           [data]="runtimeGrouped" [options]="select2Options" [width]="250"></select2>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf=" componentAction == ComponentAction.EDITE ">
+                <label for="slider-memory" class="col-md-4 col-form-label text-md-right">
+                  Live Replicas
+                </label>
+                <div class="col-md-7 custom-slider slider-danger mb-sm">
+                  <label class="form-check-label" for="checkbox-ios1" class="switch"
+                         [tooltip]="(liveReplicas?'Live Replicas ON':'Live Replicas OFF')">
+                    <input class="form-check-input" type="checkbox" class="ios" id="checkbox-ios1"
+                           (change)="switchliveReplicas()"
+
+                           value="{{liveReplicas}}" [checked]="liveReplicas"><i></i>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="slider-memory" class="col-md-4 col-form-label text-md-right">
+                  Replicas
+                </label>
+                <div class="col-md-7 custom-slider slider-danger mb-sm">
+                  <ng5-slider id="slider-replicas" formControlName="replicas" [options]="replicasOptions"
+                              (userChangeEnd)="replicasChanged()"></ng5-slider>
+                </div>
+
+              </div>
+
+              <div class="form-group row" formGroupName="autoscaler" *ngIf="functionForm.get('allocated').value">
+                <label for="normal-field" class="col-md-4  col-form-label text-md-right">Autoscaler </label>
+                <div class="col-md-7 form-check abc-checkbox abc-checkbox-primary">
+                  <input class="form-check-input "
+                         formControlName="enabled" id="autoscaler"
+                         type="checkbox" checked (ngModelChange)="onAutoscalerChangeDisabled()">
+                  <label class="form-check-label" for="autoscaler">
+                  </label>
+                </div>
+              </div>
+              <div *ngIf="functionForm.get('autoscaler').get('enabled').value">
+                <div class="form-group row  ">
+                  <label for="slider-memory" class="col-md-4 col-form-label text-md-right">
+                    Memory AverageUtilization
+                  </label>
+                  <div class="col-md-7 custom-slider slider-danger mb-sm">
+                    <select2 id="Memory-AverageUtilization-select"
+                             [value]="functionForm.get('autoscaler').get('averageCpu').value"
+                             (valueChanged)="OnAverageUtilizationCpuChanged($event)"
+                             [data]="averageUtilizationGroupe" [options]="select2Options" [width]="80"></select2>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="slider-Cpu" class="col-md-4 col-form-label text-md-right">
+                    Cpu AverageUtilization
+                  </label>
+                  <div class="col-md-7 custom-slider slider-danger mb-sm">
+                    <select2 id="Cpu--AverageUtilization-select"
+                             [value]="functionForm.get('autoscaler').get('averageMemory').value"
+                             (valueChanged)="OnAverageUtilizationMemoryChanged($event)"
+                             [data]="averageUtilizationGroupe" [options]="select2Options" [width]="80"></select2>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="minReplicas-select" class="col-md-4 col-form-label text-md-right">
+                    Min Replicas
+                  </label>
+                  <div class="col-md-7 custom-slider slider-danger mb-sm">
+                    <select2 id="minReplicas-select" [value]="functionForm.get('autoscaler').get('minReplicas').value"
+                             (valueChanged)="OnMinReplicasChanged($event)"
+                             [data]="minMaxGroupe" [options]="select2Options" [width]="80"></select2>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="maxReplicas-select" class="col-md-4 col-form-label text-md-right">
+                    Max Replicas
+                  </label>
+                  <div class="col-md-7 custom-slider slider-danger mb-sm">
+                    <select2 id="maxReplicas-select" [value]="functionForm.get('autoscaler').get('maxReplicas').value"
+                             (valueChanged)="OnMaxReplicasChanged($event)"
+                             [data]="minMaxGroupe" [options]="select2Options" [width]="80"></select2>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Function to execute</label>
+                <div class="col-md-7 ">
+                  <input formControlName="executedName" type="text" id="tooltip-enabled" class="form-control"
+                         placement="top"
+                         tooltip="Name of a function exported by the module specified in directory with source code"
+                         placeholder="helloworld"
+                         [ngClass]="{ 'is-invalid': functionForm.controls.executedName.errors }">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="runtime-select" class="col-md-4 col-form-label text-md-right">
+                  Trigger
+                </label>
+                <div class="col-md-7 ">
+                  <select2 id="trigger-select" [value]="functionForm.controls.trigger.value"
+                           (valueChanged)="triggerChanged($event)"
+                           [data]="triggerGroupe" [options]="select2Options" [width]="250"></select2>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="functionForm.controls.trigger.value === 'cronjob'">
+                <label class="col-md-4  col-form-label text-md-right" for="tooltip-enabled">Crontab</label>
+                <div class="col-md-7 ">
+                  <input formControlName="crontab" type="text" id="crontab-enabled" class="form-control"
+                         placement="top"
+                         tooltip="Crontab"
+                         placeholder="0 1 * * *"
+                         [ngClass]="{ 'is-invalid': functionForm.controls.crontab.errors }">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-12 ">
+                  <div class="tabbable tabs-right">
+                    <ul id="tabs2" class="nav nav-tabs">
+                      <li class="nav-item">
+                        <a class="nav-link active" (click)="onEditorSelectdChanged('INDEX')" href="#index"
+                           aria-expanded="true"
+                           data-toggle="tab" id="fs-toggle">INDEX
+                          <span class="fi flaticon-alarm  text-danger mr-xs" *ngIf="events.includes('INDEX')"></span>
+                        </a>
+
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#package" (click)="onEditorSelectdChanged('PACKAGE')"
+                           data-toggle="tab">DEPENDENCIES
+                          <span class="fi flaticon-alarm  text-danger mr-xs" *ngIf="events.includes('PACKAGE')"></span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#environment" (click)="onEditorSelectdChanged('ENV')"
+                           data-toggle="tab">ENVIRONMENT
+                          <span class="fi flaticon-alarm  text-danger mr-xs" *ngIf="events.includes('ENV')"></span>
+                        </a>
+                      </li>
+                      <!--                      <li class="nav-item">-->
+                      <!--                        <a class="nav-link" href="#git" (click)="onEditorSelectdChanged('GIT')"-->
+                      <!--                           data-toggle="tab">GIT</a>-->
+                      <!--                      </li>-->
+                    </ul>
+                    <div id="tabs2c" class="tab-content" [ngSwitch]="editorSelectd" style="z-index: auto">
+                      <div class="tab-pane active" *ngSwitchCase="'INDEX'" id="index">
+                        <widget class="widget">
+                          <header>
+                            <div class="widget-controls">
+                              <a data-widgster="fullscreen" (click)="fullscreen =true" title="Full Screen" href="#"><i
+                                class="glyphicon glyphicon-resize-full"></i></a>
+                              <a data-widgster="restore" (click)="fullscreen =false" title="Restore" href="#"><i
+                                class="glyphicon glyphicon-resize-small"></i></a>
+                            </div>
+                          </header>
+                          <div class="widget-body p-0">
+
+                            <mf-editor (codeChange)="codeSourceChange($event)"
+                                       [language]="runtime.language" [value]="functionForm.get('sourceCode').value">
+
+                            </mf-editor>
+
+                          </div>
+                        </widget>
+
+                      </div>
+                      <div class="tab-pane" *ngSwitchCase="'PACKAGE'" id="package">
+                        <section class="widget" widget>
+                          <div class="widget-body p-0">
+                            <div class="container">
+
+                              <mf-editor (codeChange)="dependenciesChange($event)"
+                                         [language]="runtime.dependencies"
+                                         [value]="functionForm.get('dependencies').value">
+
+                              </mf-editor>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                      <div class="tab-pane" *ngSwitchCase="'ENV'" id="environment">
+                        <label for="normal-field" class="col-md-offset-1  col-form-label ">Environment variables
+                          <button type="button" class="btn btn-default" (click)="addEnvironment()"><i
+                            class="fa fa-plus"></i></button>
+                        </label>
+                        <div class="container">
+                          <div formArrayName="environments"
+                               *ngFor="let item of functionForm.get('environments')?.controls; let i = index;">
+                            <div class="row" [formGroupName]="i">
+                              <div class="col">
+                                <div class="form-group">
+                                  <div class="input-group">
+
+                                    <input type="text" class="form-control" formControlName="name" placeholder="Name"
+                                           [ngClass]="{ 'is-invalid': item.controls.name.errors }">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           [ngClass]="{ 'is-invalid': item.controls.value.errors }"
+                                           formControlName="value" placeholder="Value">
+                                    <div class="input-group-append">
+                                      <button type="button" class="btn btn-default" (click)="addEnvironment()"><i
+                                        class="fa fa-plus"></i></button>
+                                      <button type="button" class="btn btn-default" (click)="removeEnvironment(i)"><i
+                                        class="fa fa-trash-o"></i></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="w-100"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="tab-pane" *ngSwitchCase="'GIT'" id="git">
+                        <section class="widget" widget>
+                          <header>
+                            <div class="widget-controls">
+                              <a data-widgster="fullscreen" title="Full Screen" href="#"><i
+                                class="glyphicon glyphicon-resize-full"></i></a>
+                              <a data-widgster="restore" title="Restore" href="#"><i
+                                class="glyphicon glyphicon-resize-small"></i></a>
+                            </div>
+                          </header>
+                          <div class="widget-body p-0">
+                            <div class="container">
+                              <git></git>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </fieldset>
+            <div class="form-actions">
+              <div class="text-center">
+                <div *ngFor="let control of Object.keys(functionForm.controls) ">
+                  <alert type="danger alert-sm" *ngIf="functionForm.get(control).errors">
+                    {{control}}: {{functionForm.get(control).errors | json}}
+                  </alert>
+                </div>
+                <alert type="danger alert-sm" *ngIf="functionForm.errors?.executedNameIsValide">
+                  Name of a function exported by the module specified in directory with source code
+                </alert>
+                <alert type="danger alert-sm" *ngIf="functionForm?.errors?.crontabIsValide">
+                  Crontab is not Valide for help go to https://crontab.guru
+                </alert>
+                <alert type="danger alert-sm" *ngFor="let errr of Object.values(environmentErrors) ">
+                  Environment: {{errr | json }}
+                </alert>
+                <alert [type]="functionForm.status=='INVALID'? 'danger' :'success' ">
+                  Form Status: {{ functionForm.status }}
+                </alert>
+                <button type="submit" class="btn btn-primary btn-lg btn-block fs-mini">
+
+                  {{ componentAction == ComponentAction.CREATE ? 'Deploy' : 'Deploy '}}
+                </button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-6" *ngIf=" componentAction == ComponentAction.EDITE">
+    <section class="widget" widget>
+      <header>
+        <div class="widget-controls">
+          <a tooltip="Docs" href="https://microfunctions.io/docs" class="collapsed" target="_blank"><i
+            class="fa fa-graduation-cap"></i></a>
+          <a data-widgster="close" (click)="goBack()">
+            <i class="la la-remove"></i>
+          </a>
+        </div>
+      </header>
+      <div class="widget-body">
+        <loader *ngIf="isReceiving; else details" [size]="40"></loader>
+        <ng-template #details>
+          <functionDetails [namespace]="idNamespace" [functions]="function"></functionDetails>
+        </ng-template>
+      </div>
+    </section>
+  </div>
+</div>

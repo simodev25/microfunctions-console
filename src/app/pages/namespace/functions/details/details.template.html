@@ -1,0 +1,149 @@
+<accordion [closeOthers]="true" [isAnimated]="true" class="mb-lg show" id="accordion">
+  <accordion-group isOpen="true">
+    <div accordion-heading>
+
+      <h6>Created <span class="fw-semi-bold ">{{functions.createdAt | AgePipe }}
+        ago {{functions.createdAt | date:'medium' }}</span></h6>
+      <i class="la la-angle-down float-right"></i>
+    </div>
+    <div>
+      <fieldset>
+        <div class="form-group row" [ngSwitch]="functions.trigger">
+              <label for="services-endpoint" class="col-md-2  col-form-label text-md"  *ngSwitchCase="'services'" >Services Name</label>
+              <div class="col-md-7 "  *ngSwitchCase="'services'" >
+                <label id="services-endpoint" class="col-form-label fw-semi-bold">
+                  {{functions.name}}
+                </label>
+                <i class="fa fa-copy" [tooltip]="'copy to clipboard'" (click)="copyInputMessage(functions.name)"></i>
+              </div>
+
+              <label for="crontab-endpoint" class="col-md-2  col-form-label text-md"  *ngSwitchCase="'cronjob'" >Crontab</label>
+              <div class="col-md-7 "  *ngSwitchCase="'cronjob'" >
+                <label id="crontab-endpoint" class="col-form-label fw-semi-bold">
+                  {{functions.crontab}}
+                </label>
+                <i class="fa fa-copy" [tooltip]="'copy to clipboard'" (click)="copyInputMessage(functions.crontab)"></i>
+              </div>
+
+              <label for="https-endpoint" class="col-md-2  col-form-label text-md" *ngSwitchCase="'https'" >Endpoint</label>
+              <div class="col-md-7 " *ngSwitchCase="'https'">
+                <label id="https-endpoint" class="col-form-label fw-semi-bold">
+                  {{functions.url}}
+                </label>
+                <i class="fa fa-copy" [tooltip]="'copy to clipboard'" (click)="copyInputMessage(functions.url)"></i>
+              </div>
+          </div>
+        <div class="form-group row">
+          <label for="normal-field" class="col-md-2  col-form-label text-md">Name</label>
+          <div class="col-md-7 ">
+            <label id="normal-field" class="col-form-label">
+              {{functions.name}}
+            </label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="normal-status" class="col-md-2  col-form-label text">Status</label>
+          <div class="col-7 ">
+            <label id="normal-status" class="col-form-label">
+              <div [ngSwitch]="functions.status?.status"
+                   [tooltip]="'Last '+(functions.status?.step + ' ' +functions.status?.status)" placement="right">
+                <span *ngSwitchCase="'Unknown'" class="circle bg-warning  mr-xs"></span>
+                <span *ngSwitchCase="'Pending'" class="circle bg-body-light  mr-xs">
+             <loader [size]="25"></loader>
+          </span>
+                <span *ngSwitchCase="'Succeeded'" class="circle bg-success  mr-xs"></span>
+                <span *ngSwitchCase="'Failed'" class="circle bg-danger  mr-xs"></span>
+              </div>
+            </label>
+
+            <span class="fi flaticon-windows" [popover]="popoverTemplate" [outsideClick]="true"
+                  placement="right"></span>
+            <ng-template #popoverTemplate>
+              <div style=" white-space: pre-wrap;">{{functions.status.message}}</div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="normal-logs" class="col-md-2  col-form-label text-md">logs</label>
+          <div class="col-md-7 ">
+            <logs id="normal-logs" [namespace]="namespace" [functions]="functions"></logs>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="normal-logs" class="col-md-2  col-form-label text-md">Replicas</label>
+          <loader *ngIf="isReceiving; else replicasbloc" [size]="40"></loader>
+          <ng-template #replicasbloc>
+            <ngx-datatable
+              class="table table-striped table-hover"
+              [rows]="replicas"
+              [columnMode]="'force'"
+              [headerHeight]="30"
+              [footerHeight]="20"
+              [rowHeight]="'auto'"
+              [limit]="10">
+
+              <ngx-datatable-column name="STATUS" [width]="10">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div [ngSwitch]="row?.statusPhase" [tooltip]="(row?.statusMessage)" >
+                    <span *ngSwitchCase="'Waiting'" class="circle bg-warning  mr-xs"></span>
+                    <span *ngSwitchCase="'Unknown'" class="circle bg-warning  mr-xs"></span>
+                    <span *ngSwitchCase="'Pending'" class="circle bg-body-light  mr-xs"><loader
+                      [size]="25"></loader></span>
+                    <span *ngSwitchCase="'Succeeded'" class="circle bg-success  mr-xs"  placement="right"></span>
+                    <span *ngSwitchCase="'Running'" class="circle bg-success  mr-xs"
+                          placement="right"></span>
+                    <span *ngSwitchCase="'Failed'" class="circle bg-danger  mr-xs"
+                          placement="right"></span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="name" >
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="restartsCount" [width]="10">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="cpu" [width]="10">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.cpu}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="memory" [width]="10">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.memory}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </ng-template>
+        </div>
+      </fieldset>
+    </div>
+  </accordion-group>
+  <accordion-group>
+    <div accordion-heading>
+      <h6>Server <span class="fw-semi-bold">Overview</span></h6>
+    </div>
+    <metrics [namespace]="namespace" [functions]="functions"></metrics>
+  </accordion-group>
+  <accordion-group>
+    <div accordion-heading>
+      Events
+      <i class="la la-angle-down float-right"></i>
+    </div>
+    <div *ngIf="!events ; else eventsTemp">
+      There is nothing to display here
+      No resources found.
+    </div>
+    <ng-template #eventsTemp>
+      <alert *ngFor="let event of events" type="danger alert-sm">
+        {{event.message}}
+      </alert>
+
+    </ng-template>
+
+  </accordion-group>
+</accordion>

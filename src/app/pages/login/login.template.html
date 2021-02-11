@@ -1,0 +1,32 @@
+<div class="container">
+  <h5 class="auth-logo animated fadeInUp">
+    <i class="fa fa-circle text-gray"></i>
+    Sing Microfunctions
+    <i class="fa fa-circle text-warning"></i>
+  </h5>
+  <widget
+    class="widget-auth animated fadeInUp mx-auto"
+    [title]="'<h3 class=mt-0>Login to MicroFunctions</h3>'"
+    [customHeader]="true"
+    bodyClass="mt-0"
+  >
+    <p class="widget-auth-info">
+      Use your email to sign in.
+    </p>
+    <form class="login-form" (ngSubmit)="login()">
+      <alert type="danger alert-sm" *ngIf="loginService.errorMessage">
+        {{loginService.errorMessage}}
+      </alert>
+      <div class="form-group">
+        <input name="email" [(ngModel)]="email" class="form-control no-border" id="email" type="text" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <input name="password" [(ngModel)]="password" class="form-control no-border" id="password" type="password" placeholder="Password" required>
+      </div>
+      <button class="btn btn-inverse btn-sm auth-btn mb-3" type="submit">{{loginService.isFetching ? 'Loading...' : 'Login'}}</button>
+    </form>
+  </widget>
+  <footer class="auth-footer">
+    2020-2021 &copy; MicroFunctions.io
+  </footer>
+</div>

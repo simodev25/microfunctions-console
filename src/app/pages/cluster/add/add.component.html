@@ -1,0 +1,75 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">YOU ARE HERE</li>
+  <li class="breadcrumb-item active">add a new Cluster</li>
+</ol>
+<h1 class="page-title"><span class="fw-semi-bold">Cluster</span></h1>
+<div class="row">
+  <div class="col-lg-10">
+    <section class="widget" widget>
+      <header>
+        <alert type="info alert-sm" >
+          Supported Versions of Kubernetes </alert>
+      </header>
+      <div class="widget-body">
+          <fieldset>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Supported Versions</label>
+              <div class="col-md-7 ">
+                <input type="text" id="supportVersion-input" class="form-control"
+                       disabled="disabled" [value]="supportVersion?.versions || '' +','" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Supported Distributions</label>
+              <div class="col-md-7 ">
+                <input type="text" id="distributions-input" class="form-control"
+                       disabled="disabled" [value]="supportVersion?.distributions || '' +','" >
+              </div>
+            </div>
+          </fieldset>
+      </div>
+    </section>
+  </div>
+  <div class="col-lg-10">
+    <section class="widget" widget>
+      <header>
+        <div class="widget-controls">
+          <a tooltip="Docs" href="https://microfunctions.io/docs" class="collapsed"  target="_blank"><i class="fa fa-graduation-cap"></i></a>
+          <a  data-widgster="close" (click)="goBack()"><i class="la la-remove" ></i></a>
+        </div>
+      </header>
+      <div class="widget-body">
+        <form class="form-horizontal" role="form">
+          <alert type="danger alert-sm" *ngIf="errorMessage">
+            {{errorMessage}}
+          </alert>
+          <fieldset>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Name of Cluster</label>
+              <div class="col-md-7 ">
+                <input type="text" id="normal-field" class="form-control" [(ngModel)]="clusterName" name="cluster" required="true"
+                       placeholder="Cluster Name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="normal-field" class="col-md-4  col-form-label text-md-right">Config of Cluster</label>
+              <div class="col-md-7 ">
+                <textarea type="text" id="normal-config" rows="20"
+                          class="autogrow form-control transition-height"  [(ngModel)]="clusterConfig" name="cluster" required="true"
+                          placeholder="Cluster Config ">
+                </textarea>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-actions">
+            <div class="text-center">
+              <button class="btn btn-primary" type="submit" (click)="addCluster()"> <loader *ngIf="isUpdating; else saveBtn"></loader>
+                <ng-template #saveBtn>Add</ng-template></button>
+              <button class="btn btn-inverse ml-xs" type="button"  (click)="goBack()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

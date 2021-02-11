@@ -1,0 +1,18 @@
+
+
+# Node Files #
+/node_modules
+
+# Dist #
+/dist
+/dist/**
+
+# IDE #
+.idea/
+*.swp
+
+# Yarn #
+
+
+plopfile.js
+plop-templates/
