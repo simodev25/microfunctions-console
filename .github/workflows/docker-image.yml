@@ -17,5 +17,6 @@ jobs:
         name: microfunctions/microfunctions-console
         username: ${{ secrets.LOGIN_DOCKER }}
         password: ${{ secrets.PASSWORD_DOCKER }}
+        tags: "main,${{ env.STATE_RELEASE_VERSION }}"
         tag_names: true
 
