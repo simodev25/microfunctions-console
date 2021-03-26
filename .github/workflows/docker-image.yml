@@ -1,22 +1,22 @@
 name: Docker Image CI
-
 on:
+  release:
+    types: [published]
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - master
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@master
     - name: Publish microfunctions-console
+      pre: echo ::save-state name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       uses: elgohr/Publish-Docker-Github-Action@2.12
       with:
         name: microfunctions/microfunctions-console
         username: ${{ secrets.LOGIN_DOCKER }}
         password: ${{ secrets.PASSWORD_DOCKER }}
+        tags: "main,${{ env.STATE_RELEASE_VERSION }}"
+
