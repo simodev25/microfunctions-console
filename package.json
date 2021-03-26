@@ -2,7 +2,6 @@
   "name": "microfunctions-console",
   "version": "0.1.0",
   "description": "microfunctions-console",
-  "author": "ben sassi Mohammed",
   "scripts": {
     "install": "napa",
     "ng": "ng",
