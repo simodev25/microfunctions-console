@@ -18,5 +18,4 @@ jobs:
         username: ${{ secrets.LOGIN_DOCKER }}
         password: ${{ secrets.PASSWORD_DOCKER }}
         tag_names: true
-        tag_semver: true
 
