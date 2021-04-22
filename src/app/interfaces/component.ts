@@ -137,7 +137,14 @@ export class ComponentBase {
     this.subscriptions = [];
   }
 
-
+  fullscreen(selector:string){
+    const fullscreen = document.querySelector(selector);
+    if (!document.fullscreenElement && fullscreen) {
+      fullscreen.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
 
 
   /* To copy Text from Textbox */

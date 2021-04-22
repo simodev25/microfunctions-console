@@ -210,13 +210,12 @@
                         <widget class="widget">
                           <header>
                             <div class="widget-controls">
-                              <a data-widgster="fullscreen" (click)="fullscreen =true" title="Full Screen" href="#"><i
+                              <a  (click)="fullscreen('#fullscreen')" title="Full Screen" ><i
                                 class="glyphicon glyphicon-resize-full"></i></a>
-                              <a data-widgster="restore" (click)="fullscreen =false" title="Restore" href="#"><i
-                                class="glyphicon glyphicon-resize-small"></i></a>
+
                             </div>
                           </header>
-                          <div class="widget-body p-0">
+                          <div class="fullscreen-body" id="fullscreen">
 
                             <mf-editor (codeChange)="codeSourceChange($event)"
                                        [language]="runtime.language" [value]="functionForm.get('sourceCode').value">

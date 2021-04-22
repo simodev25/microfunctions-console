@@ -161,7 +161,7 @@ export class FunctionCreateComponent extends ComponentBase implements OnInit, On
   codeEditorisloaded: boolean = false;
   packageEditorisloaded: boolean = false;
   editorSelectd: string = 'INDEX';
-  fullscreen: boolean = true;
+  //fullscreen: boolean = true;
   private defaultRuntime = 'nodejs12';
   refresh: boolean = false;
   runtime = Helper.runtime[this.defaultRuntime]
