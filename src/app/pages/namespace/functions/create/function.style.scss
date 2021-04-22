@@ -364,3 +364,22 @@ ngx-monaco-editor.active  {
   margin-right: -16px;
   padding-left: 20px;
 }
+
+
+#fullscreen-body {
+  position: relative;
+  width: 1000px;
+  font-size: 24px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#fullscreen::backdrop {
+  background-color: #FFFFFF;
+}
+
+
+
