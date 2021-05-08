@@ -28,7 +28,7 @@ export class NamespaceCreateComponent extends ComponentBase implements OnInit, O
   ngOnInit() {
     this.receiving();
     const getClusters = this.clusterService.getClusters().subscribe((clusters$: Cluster[]) => {
-      this.clusters = clusters$.map((c: Cluster) => {
+      this.clusters = clusters$.filter((c:Cluster)=>c.status.status === 'Active').map((c: Cluster) => {
         return {
           id: c.id,
           text: c.name,

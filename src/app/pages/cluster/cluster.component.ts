@@ -91,26 +91,4 @@ export class ClusterComponent extends ComponentBase implements OnInit, OnDestroy
     this.subscriptions.push(deleteClusterById);
   }
 
-  uninstallCuster(id: any) {
-    this.isDeleting = true;
-    this.idToDelete = id;
-    const deleteClusterById = this.clusterService.uninstallClusterById(id).pipe(
-      tap(() => {
-        this.clusters.forEach((cluster: Cluster) => {
-          if (cluster.id === id) {
-            cluster.status = Object.assign(cluster.status, {
-              status: 'Removing'
-            });
-          }
-        });
-      }),
-      delay(1000 * 10),
-      mergeMap((deleteResult: any) => {
-        return this.clusterService.getClusters();
-      })).subscribe((clusters: Cluster[]) => {
-      this.clusters = clusters;
-      this.receives();
-    });
-    this.subscriptions.push(deleteClusterById);
-  }
 }

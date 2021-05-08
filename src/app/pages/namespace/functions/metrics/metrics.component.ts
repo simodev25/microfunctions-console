@@ -16,8 +16,8 @@ export class MetricsComponent extends ComponentBase implements OnInit, OnDestroy
 
   @Input('namespace') namespace: string;
   @Input('functions') functions: Functions;
-  metrics: { memoryUsage?, memoryRequests?, memoryLimits?, networkTransit?, networkReceive?, cpuUsage?, fsUsage? ,cpuLimits?} = {};
-  private interval$ = timer(0, 1000 * 10);
+  metrics: { memoryUsage?, memoryRequests?, memoryLimits?, countSentSuccess?, countSentFailure?,requestTime?, cpuUsage?, fsUsage? ,cpuLimits?} = {};
+  private interval$ = timer(0, 1000 * 30);//TODO 1000 * 10
 
   constructor(private functionService: FunctionService,
               private metricsService: MetricsService) {
@@ -36,20 +36,14 @@ export class MetricsComponent extends ComponentBase implements OnInit, OnDestroy
     return this.metricsService.formateMemory(value);
   }
 
-  get networkReceive() {
-    const value = this.metrics.networkReceive;
-    return this.metricsService.formateMemory(value);
+  get countSentSuccess() {
+    return this.metrics.countSentSuccess ||  0;
   }
 
-  get networkTransit() {
-    const value = this.metrics.networkTransit;
-    return this.metricsService.formateMemory(value);
+  get countSentFailure() {
+    return this.metrics.countSentFailure ||  0;
   }
 
-  get fsUsage() {
-    const value = this.metrics.fsUsage;
-    return this.metricsService.formateMemory(value);
-  }
 
   get cpuUsage() {
     const value = this.metrics.cpuUsage;
@@ -66,17 +60,15 @@ export class MetricsComponent extends ComponentBase implements OnInit, OnDestroy
     return ((this.metrics.memoryUsage * 100) / this.metrics.memoryRequests);
   }
 
-  get networkProgressbar() {
-    return ((this.metrics.networkReceive * 100) / 10000);
+  get requestTime() {
+    return this.metrics.requestTime || 0;
   }
 
   get cpuUsageProgressbar() {
     return ((this.metrics.cpuUsage * 100) / 10000);
   }
 
-  get fsUsageProgressbar() {
-    return ((this.metrics.fsUsage * 100) / 10000000000);
-  }
+
 
 
   getProgressbarTye(progressbar: number) {
@@ -87,6 +79,17 @@ export class MetricsComponent extends ComponentBase implements OnInit, OnDestroy
       return 'warning';
     }
     if (progressbar >= 90) {
+      return 'danger';
+    }
+  }
+  getProgressbarRequestTime(progressbar: number) {
+    if (progressbar < 100) {
+      return 'primary';
+    }
+    if (progressbar >= 100 && progressbar < 400) {
+      return 'warning';
+    }
+    if (progressbar >= 400) {
       return 'danger';
     }
   }
