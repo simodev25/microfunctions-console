@@ -26,7 +26,7 @@ export class DetailsComponent extends ComponentBase implements OnInit, OnDestroy
   replicas: ReplicasStatus[];
   isError: boolean = false;
   events: Events[] = [];
-  private interval$ = timer(0, 1000 * 10);
+  private interval$ = timer(0, 1000 * 30);//1000 * 10
 
   constructor(protected functionService: FunctionService,
               private metricsService: MetricsService) {
