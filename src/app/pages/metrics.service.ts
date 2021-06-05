@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import moment from 'moment';
 import {map} from 'rxjs/operators';
-import {bytesToUnits} from '../../../../utils/convertMemory';
+import {bytesToUnits, bytesToUnitsNumber} from '../utils/convertMemory';
 
 
 export interface IMetricsResult {
@@ -27,15 +27,14 @@ export interface IMetrics {
   };
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class MetricsService {
 
   private metrics$: Subject<any> = new Subject<any>();
   private metricsObservable$: Observable<any> = this.metrics$.asObservable();
 
-  get metricsObservable() {
-    return this.metricsObservable$;
-  }
 
   get metricLastPoints() {
     return this.metricsObservable$.pipe(map((metrics$: any) => {
@@ -67,23 +66,6 @@ export class MetricsService {
     return result;
   }
 
-  public isMetricsEmpty(metrics: { [key: string]: IMetrics }) {
-    return Object.values(metrics).every(metric => !metric.data.result.length);
-  }
-
-  public getItemMetrics(metrics: { [key: string]: IMetrics }, itemName: string) {
-    if (!metrics) {
-      return;
-    }
-    const itemMetrics = {...metrics};
-    // tslint:disable-next-line:forin
-    for (const metric in metrics) {
-      const results = metrics[metric].data.result;
-      const result = results.find(res => Object.values(res.metric)[0] === itemName);
-      itemMetrics[metric].data.result = result ? [result] : [];
-    }
-    return itemMetrics;
-  }
 
   public normalizeMetrics(metrics: IMetrics, frames = 1): IMetrics {
 
@@ -115,6 +97,7 @@ export class MetricsService {
   formateCpu(value) {
 
     if (value === 0) { return 0; }
+  //  if (value < 1) { return value.toFixed(3); }
     if (value < 10) { return value.toFixed(3); }
     if (value < 100) { return value.toFixed(2); }
     return value.toFixed(1);

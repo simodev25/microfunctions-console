@@ -4,6 +4,7 @@ import {Status} from './status';
 export interface Functions {
 
   idFunctions: string;
+  id: string;
   name: string;
   allocated: boolean;
   memory: string;

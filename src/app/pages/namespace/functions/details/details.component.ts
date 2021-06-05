@@ -3,10 +3,11 @@ import {Functions, ReplicasStatus} from '../../../../interfaces/functions';
 
 import {FunctionService} from '../../function.service';
 import {timer} from 'rxjs';
-import {IMetricsResult, MetricsService} from '../metrics/metrics.service';
+
 import {ComponentBase} from '../../../../interfaces/component';
 import {takeWhile, tap} from 'rxjs/operators';
 import {StatusFunctionEnum} from '../../../../enums/status.function.enum';
+import {IMetricsResult, MetricsService} from "../../../metrics.service";
 
 interface Events {
   message: string;

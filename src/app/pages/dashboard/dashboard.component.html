@@ -1,0 +1,111 @@
+<div class="analytics-page">
+
+
+  <div class="row">
+    <div class="col-xs-6 col-sm-offset-3"><h1>Analytics Cluster : </h1></div>
+    <div class="col-xs-6 col-sm-offset-3">
+      <select2 id="clusters-select"
+               (valueChanged)="clustersChanged($event)" [width]="250"
+               [data]="clustersSelected" [options]="select2Options"></select2>
+    </div>
+    <div class="col-xs-6 col-sm-2">
+      <select2 id="namespace-select"
+               (valueChanged)="namespacesChanged($event)" [width]="250"
+               [data]="namespaceSelected" [options]="select2Options"></select2>
+    </div>
+    <div class="col-xs-3 col-sm-2">
+      <select2 id="functions-select"
+                [width]="250" (valueChanged)="functionsChanged($event)"
+               [data]="functionsSelected" [options]="select2Options"></select2>
+    </div>
+  </div>
+
+
+  <div class="sidesWrapper">
+    <div class="analyticsSide">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="pb-5 h-100">
+            <widget class="h-100 mb-0"
+                    [title]="'CPU'"
+                    [close]="true"
+            >
+              <h6>Usage: {{metricsCluster?.cpuUsage | CpuPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.cpuUsage *  100) / metricsCluster?.cpuCapacity"
+                           type="primary"></progressbar>
+              <h6>Requests: {{metricsCluster?.cpuRequests | CpuPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.cpuRequests *  100) / metricsCluster?.cpuCapacity"
+                           type="primary"></progressbar>
+              <h6>Limits: {{metricsCluster?.cpuLimits | CpuPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.cpuLimits *  100) / metricsCluster?.cpuCapacity"
+                           type="primary"></progressbar>
+              <h6>Capacity: {{metricsCluster?.cpuCapacity }}</h6>
+            </widget>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="pb-5 h-100">
+            <widget class="h-100 mb-0"
+                    [title]="'Memory'"
+                    [close]="true"
+                    [fetchingData]="false"
+            >
+              <h6>Usage: {{metricsCluster?.memoryUsage | MemoryPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.memoryUsage *  100) / metricsCluster?.memoryCapacity"
+                           type="primary"></progressbar>
+              <h6>Requests: {{metricsCluster?.memoryRequests | MemoryPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.memoryRequests *  100) / metricsCluster?.memoryCapacity"
+                           type="primary"></progressbar>
+              <h6>Limits: {{metricsCluster?.memoryLimits | MemoryPipe}}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.memoryLimits *  100) / metricsCluster?.memoryCapacity"
+                           type="primary"></progressbar>
+              <h6>Capacity: {{metricsCluster?.memoryCapacity | MemoryPipe}}</h6>
+            </widget>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="pb-5 h-100">
+            <widget class="h-100 mb-0"
+                    [title]="'Pods'"
+                    [close]="true"
+            >
+              <h6>Usage: {{metricsCluster?.podUsage }}</h6>
+              <progressbar class="mb-1 progress-xs"
+                           [value]="(metricsCluster?.podUsage *  100) / metricsCluster?.podCapacity"
+                           type="primary"></progressbar>
+              <h6>Capacity: {{metricsCluster?.podCapacity }}</h6>
+            </widget>
+          </div>
+        </div>
+        <div class="col-12  ">
+          <widget class="mb-12" id="main-chart"
+                  [customHeader]="true"
+                  [collapse]="true"
+                  [close]="true"
+                  [fetchingData]="isReceiving"
+                  [bodyClass]="'mt-3'"
+          >
+            <div class="btn-group">
+              <button class="btn btn-default width-100 mb-xs active" [ngClass]="{'active':chartSelected === 'CPU'}"
+                      role="button" (click)="chartSelectedAction('CPU')">
+                CPU
+              </button>
+              <button class="btn btn-default width-100 mb-xs" role="button"
+                      [ngClass]="{'active':chartSelected === 'MEMORY'}" (click)="chartSelectedAction('MEMORY')">
+                Memory
+              </button>
+            </div>
+            <main-chart [data]="data" [isReceiving]="isReceiving"></main-chart>
+          </widget>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,6 +1,6 @@
 <div class="js-sidebar-content">
   <header class="logo">
-    <a href="index.html"><strong>Micro<i class="fa fa-flash"></i></strong>Function</a>
+    <a href="index.html"><strong>Micro<i class="fa fa-flash"></i></strong>Functions</a>
   </header>
     <div class="sidebar-status d-md-none dropdown" dropdown [autoClose]="false"
        (isOpenChange)="toggleSidebarOverflow($event)"
@@ -10,16 +10,12 @@
   <!-- main notification links are placed inside of .sidebar-nav -->
   <ul class="sidebar-nav">
     <li routerLinkActive="active">
-      <a class="collapsed" data-target="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
-        <span class="icon">
-          <i class="fi flaticon-home"></i>
-        </span>
+      <a [routerLink]=" ['dashboard'] " class="collapsed">
+     <span class="icon">
+       <i class="fa fa-dashboard"></i>
+     </span>
         Dashboard
-        <i class="toggle fa fa-angle-down"></i>
       </a>
-      <ul id="sidebar-dashboard" class="collapse">
-        is coming
-      </ul>
     </li>
     <li routerLinkActive="active" class="active" tooltip="Creating a new namespace.">
       <a [routerLink]=" ['namespace'] " class="collapsed">

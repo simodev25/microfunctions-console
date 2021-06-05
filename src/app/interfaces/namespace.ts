@@ -10,6 +10,7 @@ export interface Namespace {
   apiKey: string;
   status: Status;
   clusterName: string;
+  idCluster:string;
   host: { host:string };
 
 

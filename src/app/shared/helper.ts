@@ -1,6 +1,6 @@
 export class Helper {
   static select2Options: any = {
-    theme: 'bootstrap'
+    theme: 'bootstrap',
   };
 
   static runtime: any = {

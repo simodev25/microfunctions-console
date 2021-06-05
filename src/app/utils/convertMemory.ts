@@ -28,3 +28,14 @@ export function bytesToUnits(bytes: number, precision = 1) {
   }
   return `${(bytes / (1024 ** index)).toFixed(precision)}${sizes[index]}i`;
 }
+
+export function bytesToUnitsNumber(bytes: number, precision = 1) {
+  const index = Math.floor(Math.log(bytes) / Math.log(base));
+  if (!bytes) {
+    return 'N/A';
+  }
+  if (index === 0) {
+    return bytes;
+  }
+  return (bytes / (1024 ** index)).toFixed(precision);
+}

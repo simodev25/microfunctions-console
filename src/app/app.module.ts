@@ -18,8 +18,6 @@ import {MicroFunctionService} from './shared/services/micro-function.service';
 import {LoaderModule} from './components/loader/loader.module';
 import {LoaderAppComponent} from './pages/loader/loader.component';
 
-
-
 const APP_PROVIDERS = [
   AppConfig,
   LoginService,
@@ -34,7 +32,6 @@ const APP_PROVIDERS = [
     LoaderAppComponent,
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,

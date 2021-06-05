@@ -9,6 +9,7 @@ const routes: Routes = [
       {path: 'cli', loadChildren: '../pages/cli/cli.module#CliModule'},
       {path: 'cluster', loadChildren: '../pages/cluster/cluster.module#ClusterModule'},
       {path: 'settings', loadChildren: '../pages/settings/settings.module#SettingsModule'},
+      {path: 'dashboard', loadChildren: '../pages/dashboard/dashboard.module#DashboardModule'},
     ]
   }
 ];

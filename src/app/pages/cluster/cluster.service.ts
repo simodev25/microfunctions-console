@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MicroFunctionService} from '../../shared/services/micro-function.service';
 import {Observable, throwError} from 'rxjs';
-
 import {catchError, map} from 'rxjs/operators';
-import {Cluster, SupportVersion} from '../../interfaces/cluster';
+import {Cluster} from '../../interfaces/cluster';
 import {VisibilityCluster} from '../../enums/visibility.cluster';
-import {StatusHist} from '../../interfaces/status.hist';
 import {Response} from "../../interfaces/response";
 
 @Injectable({
@@ -15,8 +13,6 @@ export class ClusterService extends MicroFunctionService {
   private urls: any = {
     cluster: '/cluster/',
   };
-
-
 
 
   public addCluster(name: string, config: string, visibility: VisibilityCluster): Observable<any> {
@@ -32,9 +28,9 @@ export class ClusterService extends MicroFunctionService {
     return this.http.get<Response>(url).pipe(
       map((response: Response) => response.data),
       catchError((err: any) => {
-      this.toastr.error(err);
-      return throwError('error');
-    }));
+        this.toastr.error(err);
+        return throwError('error');
+      }));
   }
 
   deleteClusterById(id: any) {
@@ -52,6 +48,7 @@ export class ClusterService extends MicroFunctionService {
       return throwError('error');
     }));
   }
+
   uninstallClusterById(id: any) {
     const url: string = `${this.urls.cluster}${id}/uninstall`;
     return this.http.get<string>(url).pipe(catchError((err: any) => {
@@ -65,17 +62,28 @@ export class ClusterService extends MicroFunctionService {
     return this.http.get<Response>(url).pipe(
       map((response: Response) => response.data),
       catchError((err: any) => {
-      this.toastr.error(err);
-      return throwError('error');
-    }));
+        this.toastr.error(err);
+        return throwError('error');
+      }));
   }
+
+  getMetrics(idCluster: any, range?: string) {
+    const url: string = `${this.urls.cluster}${idCluster}/metrics`;
+    return this.http.get<Response>(url,range ? {params:{'range':range}} :{}).pipe(
+      map((response: Response) => response.data),
+      catchError((err: any) => {
+        this.toastr.error(err);
+        return throwError('error');
+      }));
+  }
+
   listSupportVersion() {
     const url: string = `${this.urls.cluster}support-version`;
     return this.http.get<Response>(url).pipe(
       map((response: Response) => response.data),
       catchError((err: any) => {
-      this.toastr.error(err);
-      return throwError('error');
-    }));
+        this.toastr.error(err);
+        return throwError('error');
+      }));
   }
 }

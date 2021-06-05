@@ -79,6 +79,5 @@ export class NamespaceCreateComponent extends ComponentBase implements OnInit, O
 
   clustersChanged($event: any) {
     this.idCluster = $event.value;
-    console.log('clustersChanged', $event);
   }
 }
