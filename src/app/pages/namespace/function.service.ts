@@ -3,7 +3,10 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, delay, map, tap} from 'rxjs/operators';
 import {Functions} from '../../interfaces/functions';
 import {Response} from '../../interfaces/response';
-
+import {Injectable} from "@angular/core";
+@Injectable({
+  providedIn: 'root'
+})
 export class FunctionService extends MicroFunctionService {
   private urls: any = {
     function: '/namespaces/',
@@ -86,10 +89,10 @@ export class FunctionService extends MicroFunctionService {
     );
   }
 
-  public getMetrics(idNamespaces: string, idFunction: string, range?: number): Observable<any> {
+  public getMetrics(idNamespaces: string, idFunction: string, range?: string): Observable<any> {
     const url: string = `${this.urls.function}${idNamespaces}/functions/${idFunction}/metrics`;
 
-    return this.http.get<Response>(url).pipe(
+    return this.http.get<Response>(url,range ? {params:{'range':range}} :{}).pipe(
       map((response: Response) => response.data),
       catchError((err: any) => {
       this.toastr.error(err || 'A problem occurred during recovery Metrics Function');

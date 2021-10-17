@@ -15,17 +15,14 @@ export class CpuPipe implements PipeTransform {
 
 }
 
-const formateCpu = (value) => {
+export const formateCpu = (value) => {
 
-  if (value === 0) {
-    return 0;
-  }
-  if (value < 10) {
-    return value.toFixed(3);
-  }
-  if (value < 100) {
-    return value.toFixed(2);
-  }
-  return value.toFixed(1);
+  const float = parseFloat(`${value}`);
+
+  if (float == 0) return "0";
+  if (float < 10) return float.toFixed(3);
+  if (float < 100) return float.toFixed(2);
+
+  return float.toFixed(1);
 
 };

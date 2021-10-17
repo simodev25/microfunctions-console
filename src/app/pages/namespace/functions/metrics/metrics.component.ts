@@ -5,7 +5,9 @@ import {timer} from 'rxjs';
 import {map, mergeMap} from 'rxjs/operators';
 
 import {Functions} from '../../../../interfaces/functions';
-import {IMetrics, MetricsService} from './metrics.service';
+import {MetricsService} from "../../../metrics.service";
+import {IMetrics} from "../../../../interfaces/metrics";
+
 
 
 @Component({

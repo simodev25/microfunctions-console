@@ -2,7 +2,6 @@ import {NamespaceComponent} from './edite/namespace.component';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {NamespaceService} from './namespace.service';
 import {ManagementComponent} from './management/management';
 
 import {
@@ -24,7 +23,7 @@ import {FunctionCreateComponent} from './functions/create/function.component';
 import {LogsComponent} from './functions/logs/logs.component';
 import {DetailsComponent} from './functions/details/details.component';
 import {MetricsComponent} from './functions/metrics/metrics.component';
-import {MetricsService} from './functions/metrics/metrics.service';
+
 import {GitComponent} from './functions/git/git.component';
 import {GitService} from './functions/git/git.service';
 import {SharedModule} from '../shared.module';
@@ -58,7 +57,7 @@ export const routes = [
 
 
   ],
-  providers: [NamespaceService, FunctionService, BsModalService, MetricsService, GitService],
+  providers: [ FunctionService, BsModalService, GitService],
   declarations: [
     DetailsComponent,
     ManagementComponent,

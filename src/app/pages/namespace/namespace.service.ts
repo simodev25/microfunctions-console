@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {MicroFunctionService} from '../../shared/services/micro-function.service';
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Namespace} from '../../interfaces/namespace';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Response} from '../../interfaces/response';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NamespaceService extends MicroFunctionService {
   private urls: any = {
     namespaces: '/namespaces',
   };
-
 
   public getNamespaces(): Observable<Namespace[]> {
     const url: string = this.urls.namespaces;
@@ -22,9 +23,9 @@ export class NamespaceService extends MicroFunctionService {
       }));
   }
 
-  public createNamespaces(name: string, idCluster: string,host :string): Observable<Response> {
+  public createNamespaces(name: string, idCluster: string, host: string): Observable<Response> {
     const url: string = this.urls.namespaces;
-    return this.http.post<Response>(url, {name, idCluster,host}).pipe(
+    return this.http.post<Response>(url, {name, idCluster, host}).pipe(
       tap((response: Response) => {
         this.toastr.success(response.message);
       }),
@@ -40,9 +41,9 @@ export class NamespaceService extends MicroFunctionService {
     return this.http.get<Response>(url).pipe(
       map((response: Response) => response.data),
       catchError((err: any) => {
-      this.toastr.error(err || 'A problem occurred during recovery Namespace');
-      return throwError('error');
-    }));
+        this.toastr.error(err || 'A problem occurred during recovery Namespace');
+        return throwError('error');
+      }));
   }
 
   public deleteNamespaceById(id: string): Observable<Namespace | Response> {
@@ -55,6 +56,16 @@ export class NamespaceService extends MicroFunctionService {
         this.toastr.success(response.message);
       })
     );
+  }
+
+  getMetrics(id: any, range?: string) {
+    const url: string = `${this.urls.namespaces}/${id}/metrics`;
+    return this.http.get<Response>(url,range ? {params:{'range':range}} :{}).pipe(
+      map((response: Response) => response.data),
+      catchError((err: any) => {
+        this.toastr.error(err);
+        return throwError('error');
+      }));
   }
 
 

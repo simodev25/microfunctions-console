@@ -1,0 +1,11 @@
+<div id="chart" *ngIf="!isReceiving">
+  <canvas baseChart
+          [datasets]="chartOptions.lineChartData"
+          [labels]="chartOptions.lineChartLabels"
+          [options]="chartOptions.lineChartOptions"
+          [colors]="chartOptions.lineChartColors"
+          [legend]="chartOptions.lineChartLegend"
+          [chartType]="chartOptions.lineChartType"
+          [plugins]="chartOptions.lineChartPlugins">
+  </canvas>
+</div>
